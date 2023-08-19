@@ -1,6 +1,6 @@
 const XLSX = require("xlsx");
 
-const techCities = [['Eddyville', 'Des Moines', 'Ankeny'],[ 'Cedar Rapids']]
+const techCities = [['Eddyville', 'Des Moines', 'Ankeny'],[ 'Cedar Rapids'],['High River', 'Lethbridge'], ['Schuyler', 'Albion', 'Carelton', 'Columbus', 'Dakota City', 'Elwood', 'Freemont', 'Gibbon']]
 
 
 
@@ -9,7 +9,6 @@ const techCities = [['Eddyville', 'Des Moines', 'Ankeny'],[ 'Cedar Rapids']]
 const sorter = (file, cityArray) => {
 
     const sortedMachines = {}
-    console.log(file)
     file.map(machine => {
     let site = machine['Location - Site']
     let status = machine['Status']
@@ -27,10 +26,15 @@ const sorter = (file, cityArray) => {
         sortedMachines[site] = {total: 1 }
     }
     })
+    console.log(sortedMachines)
     const techs = []
     cityArray.map((tech, idx) => {
+        
         techs[idx] = {hub: cityArray[idx][0], total: 0, Active: 0}
         tech.map(city => {
+            if(!sortedMachines[city]){
+                return null
+            }
             techs[idx].total += sortedMachines[city].total
             techs[idx].Active += sortedMachines[city].Active
         })
