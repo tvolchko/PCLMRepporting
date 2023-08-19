@@ -1,9 +1,3 @@
-const XLSX = require("xlsx");
-
-const techCities = [['Eddyville', 'Des Moines', 'Ankeny'],[ 'Cedar Rapids'],['High River', 'Lethbridge'], ['Schuyler', 'Albion', 'Carelton', 'Columbus', 'Dakota City', 'Elwood', 'Freemont', 'Gibbon']]
-
-
-
 
 
 const sorter = (file, cityArray) => {
@@ -12,6 +6,9 @@ const sorter = (file, cityArray) => {
     file.map(machine => {
     let site = machine['Location - Site']
     let status = machine['Status']
+    if(site === 'Dayton' && machine['State'] === 'Virginia'){
+        return null
+    }
     if(status === 'Active' && sortedMachines.hasOwnProperty([site]) && sortedMachines[site].hasOwnProperty([status]) ) {
         sortedMachines[site].Active++
         sortedMachines[site].total++
@@ -38,6 +35,7 @@ const sorter = (file, cityArray) => {
             techs[idx].total += sortedMachines[city].total
             techs[idx].Active += sortedMachines[city].Active
         })
+        techs[idx].completion = `${Math.floor(((techs[idx].total - techs[idx].Active)/techs[idx].total) * 100)}%`
     })
     console.log(techs)
     return techs
