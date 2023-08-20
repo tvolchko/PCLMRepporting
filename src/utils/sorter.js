@@ -33,7 +33,10 @@ const sorter = (file, cityArray) => {
                 return null
             }
             techs[idx].total += sortedMachines[city].total
-            techs[idx].Active += sortedMachines[city].Active
+
+            if(sortedMachines[city].Active){
+                techs[idx].Active += sortedMachines[city].Active
+            }
         })
         techs[idx].completion = `${Math.floor(((techs[idx].total - techs[idx].Active)/techs[idx].total) * 100)}%`
     })
