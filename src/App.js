@@ -13,14 +13,9 @@ const XLSX = require("xlsx");
 function App() {
   const [doc, setDoc] = useState([])
   const [hubs, setHubs] = useState([])
-  // let hubs = []
 
   const runCalc = () => {
-    let x = sorter(doc, list)
-    console.log(x)
-    setHubs(x)
-    console.log(hubs)
-    
+    setHubs(sorter(doc, list)) 
 }
 async function handleFileAsync(e) {
   const file = e.target.files[0];
@@ -28,7 +23,6 @@ async function handleFileAsync(e) {
   const workbook = XLSX.read(data);
   var sheet = workbook.Sheets[workbook.SheetNames[0]];
   setDoc(XLSX.utils.sheet_to_json(sheet))
-
 }
 
   return (
@@ -36,7 +30,7 @@ async function handleFileAsync(e) {
       <header className="App-header">
         <img src={logo} className="App-logo" alt="logo" />
         <div className="inputContainer">
-      <input type="file" id="fileDemo" className="input" accept=".xlsx" onChange={handleFileAsync}/>
+      <input type="file" className="input" accept=".xlsx" onChange={handleFileAsync}/>
       <button onClick={runCalc}>Run Calculation</button>
     </div>
     {hubs.length != 0 ? <HubCard hubs={hubs}/> : null}
